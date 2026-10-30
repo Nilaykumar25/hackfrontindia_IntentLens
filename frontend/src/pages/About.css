@@ -198,24 +198,35 @@
   border-radius: var(--r-md);
 }
 
-.about-team-member__role {
-  font-size: var(--text-xs);
-  color: var(--muted);
-  font-weight: 500;
-}
-
 .about-team-member__name {
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--ink);
+  margin-bottom: var(--sp-2);
 }
 
-.about-team-member__name--placeholder {
-  color: var(--muted);
-  font-style: italic;
-  font-weight: 400;
-  font-family: var(--font-mono);
+.about-team-member__roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.about-team-member__role {
   font-size: var(--text-xs);
+  color: var(--muted);
+  font-weight: 500;
+  padding-left: var(--sp-3);
+  position: relative;
+}
+
+.about-team-member__role::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--line);
 }
 
 /* ── Mobile ──────────────────────────────────────────────── */

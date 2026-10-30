@@ -50,11 +50,15 @@ const TECH_STACK = [
   { name: '@neo4j-nvl/react', role: 'Graph visualisation',      detail: '0.3.9, InteractiveNvlWrapper' },
 ]
 
-const TEAM_PLACEHOLDERS = [
-  { role: 'Backend & graph engineering', name: '[Team member — placeholder]' },
-  { role: 'LLM integration & prompting', name: '[Team member — placeholder]' },
-  { role: 'Frontend & design',           name: '[Team member — placeholder]' },
-  { role: 'Evaluation & demo',           name: '[Team member — placeholder]' },
+const TEAM = [
+  {
+    name: 'Nilay Kumar',
+    roles: ['Backend & graph engineering', 'LLM integration & prompting'],
+  },
+  {
+    name: 'Riddhima Chaturvedi',
+    roles: ['Frontend & design', 'Evaluation & demo'],
+  },
 ]
 
 export default function About() {
@@ -141,18 +145,18 @@ export default function About() {
           </div>
         </section>
 
-        {/* Team — clearly marked placeholders */}
+        {/* Team */}
         <section className="about-section" aria-labelledby="team-heading">
           <h2 id="team-heading" className="about-section__title">Team</h2>
-          <p className="about-team-note">
-            <span className="about-team-note__marker" aria-label="Note">⚑</span>
-            Team names below are placeholders. Replace before submitting the final pitch.
-          </p>
           <div className="about-team-grid">
-            {TEAM_PLACEHOLDERS.map(({ role, name }) => (
-              <div key={role} className="about-team-member">
-                <span className="about-team-member__role">{role}</span>
-                <span className="about-team-member__name about-team-member__name--placeholder">{name}</span>
+            {TEAM.map(({ name, roles }) => (
+              <div key={name} className="about-team-member">
+                <span className="about-team-member__name">{name}</span>
+                <ul className="about-team-member__roles">
+                  {roles.map(r => (
+                    <li key={r} className="about-team-member__role">{r}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>

@@ -1,19 +1,24 @@
 FROM python:3.11-slim
 
+# git is needed by PyDriller for local repo operations
+RUN apt-get update && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
-# Install git (needed by PyDriller) and build deps
-RUN apt-get update && apt-get install -y --no-install-recommends git && rm -rf /var/lib/apt/lists/*
-
-# Install Python deps
+# Install deps first (cached layer)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application
-COPY . .
+# Copy application code (not data/cache or .venv)
+COPY backend/ ./backend/
+COPY scripts/ ./scripts/
+COPY docs/ ./docs/
+COPY eval/ ./eval/
+COPY config/ ./config/
 
-# Expose the FastAPI port
+# Render injects $PORT; default to 8000 locally
+ENV PORT=8000
 EXPOSE 8000
 
-# Run the API
-CMD ["uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT}"]

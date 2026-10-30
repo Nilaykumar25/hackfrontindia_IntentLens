@@ -1,68 +1,200 @@
-# Deployment Guide
+# Deployment Guide — Render (backend) + Vercel (frontend)
+
+This guide walks you through deploying IntentLens with:
+- **Render** (free Python web service) — FastAPI backend
+- **Vercel** (free hobby plan) — React frontend
+
+The Neo4j AuraDB and Sarvam AI are cloud services — no additional hosting needed.
+
+---
+
+## Architecture after deployment
+
+```
+Browser
+  │
+  ▼
+Vercel (React SPA)
+  │  direct API calls via VITE_API_URL
+  ▼
+Render (FastAPI)  ──►  Neo4j AuraDB (cloud)
+                  ──►  Sarvam AI (cloud)
+```
+
+---
 
 ## Prerequisites
 
-- Neo4j AuraDB instance (free tier works)
-- Sarvam AI API key (free tier)
-- GitHub personal access token (for PR ingestion — optional for demo)
-- Render.com account (backend)
-- Vercel account (frontend)
+- GitHub repository with this code pushed
+- Neo4j AuraDB instance running (keep your URI, user, password)
+- Sarvam AI API key
+- Accounts at render.com and vercel.com (both free)
 
-## Backend (Render)
+---
 
-1. Push the repo to GitHub
-2. Create a new Web Service on Render, connect the repo
-3. Use the included `Dockerfile` (or `render.yaml` for IaC)
-4. Set these environment variables in the Render dashboard:
-   - `NEO4J_URI` — your AuraDB connection URI
-   - `NEO4J_USER` — AuraDB username
-   - `NEO4J_PASSWORD` — AuraDB password
-   - `NEO4J_DATABASE` — database name (usually `neo4j`)
-   - `SARVAM_API_KEY` — your Sarvam API key
-   - `LLM_PROVIDER=sarvam`
-   - `SARVAM_MODEL=sarvam-105b`
-   - `ALLOWED_ORIGINS` — your Vercel frontend URL
-   - `GITHUB_TOKEN` — optional, for PR ingestion
-5. Deploy. Health check: `GET /health` should return `{"status":"ok"}`
+## Step 1 — Deploy the backend on Render
 
-## Frontend (Vercel)
+### 1a. Connect your repo
 
-1. `cd frontend && npm install && npm run build` — verify the build works
-2. Import the `frontend/` directory to Vercel
-3. Set the API base URL environment variable:
-   - `VITE_API_BASE` — your Render backend URL (e.g., `https://intentlens-api.onrender.com`)
-4. The Vite config proxies `/api` to the backend in dev mode; in production, the frontend calls the API base directly
+1. Go to [dashboard.render.com](https://dashboard.render.com) → **New → Web Service**
+2. Connect your GitHub account and select your `intentlens` repository
+3. Render will auto-detect `render.yaml` — click **Apply**
 
-## Post-deploy: Load the graph
+### 1b. Configure environment variables
 
-```bash
-# On your local machine (with the repo cloned and venv active):
-# 1. Apply schema to the remote AuraDB
-python -m scripts.apply_schema
+In the Render dashboard → your service → **Environment**, add these secrets
+(they are marked `sync: false` in `render.yaml` so Render won't auto-fill them):
 
-# 2. Ingest data (git + docs)
-python -m scripts.ingest
+| Key | Value |
+|-----|-------|
+| `NEO4J_URI` | `neo4j+s://xxxxxxxx.databases.neo4j.io` |
+| `NEO4J_USER` | `xxxxxxxx` |
+| `NEO4J_PASSWORD` | your AuraDB password |
+| `NEO4J_DATABASE` | `xxxxxxxx` (same as user on AuraDB free) |
+| `SARVAM_API_KEY` | `sk_...` |
+| `GITHUB_TOKEN` | `ghp_...` (only needed if you re-run ingest) |
+| `ALLOWED_ORIGINS` | leave blank for now — fill in after Vercel deploy |
 
-# 3. Build the graph (mines decisions via Sarvam — this takes ~30 min for 200 threads)
-python -m scripts.build_graph --limit 200
+### 1c. Deploy
 
-# 4. Run supersession
-python -m scripts.run_supersession
+Click **Save Changes** → Render builds and deploys automatically.
 
-# 5. Warm the demo cache
-python -m scripts.warm_demo
+After ~3 minutes the service will be live. Copy the URL — it looks like:
+```
+https://intentlens-api.onrender.com
 ```
 
-## Smoke test
-
+Test it:
 ```bash
-python -m scripts.smoke_test https://your-render-url.onrender.com
+curl https://intentlens-api.onrender.com/health
+# → {"status":"ok"}
+
+curl https://intentlens-api.onrender.com/stats
+# → {"commits":1372,"decisions":570,...}
 ```
 
-## Security checklist
+### 1d. Update ALLOWED_ORIGINS (after Vercel deploy)
 
-- [ ] No secrets in `.env` are committed (`.gitignore` excludes `.env`)
-- [ ] `.env.example` has placeholder values only
-- [ ] Render/Vercel env vars are set in the dashboard, not in code
-- [ ] CORS is restricted via `ALLOWED_ORIGINS`
-- [ ] No API keys in logs (Sarvam usage logs only show token counts, not the key)
+Once you have your Vercel URL (Step 2), come back to Render → Environment and set:
+```
+ALLOWED_ORIGINS = https://your-app.vercel.app
+```
+Then click **Save** — Render redeploys automatically.
+
+---
+
+## Step 2 — Deploy the frontend on Vercel
+
+### 2a. Import project
+
+1. Go to [vercel.com/new](https://vercel.com/new)
+2. Click **Import Git Repository** → select your `intentlens` repo
+3. Set the **Root Directory** to `frontend` (important!)
+4. Framework: **Vite** (auto-detected)
+
+### 2b. Set environment variables
+
+In the Vercel project settings → **Environment Variables**, add:
+
+| Key | Value |
+|-----|-------|
+| `VITE_API_URL` | `https://intentlens-api.onrender.com` |
+
+> This is the Render URL from Step 1c. Vercel injects it at build time
+> via `import.meta.env.VITE_API_URL` in `src/api.js`.
+
+### 2c. Build settings (Vercel auto-detects these from package.json)
+
+| Setting | Value |
+|---------|-------|
+| Build Command | `npm run build` |
+| Output Directory | `dist` |
+| Install Command | `npm install` |
+
+Click **Deploy**.
+
+After ~2 minutes your frontend is live at:
+```
+https://intentlens.vercel.app
+```
+
+### 2d. Update Render CORS (loop back to Step 1d)
+
+In Render → Environment → `ALLOWED_ORIGINS`:
+```
+https://intentlens.vercel.app
+```
+Save → redeploy.
+
+---
+
+## Step 3 — Verify end-to-end
+
+Open your Vercel URL and test all three demo states:
+
+```
+/ask?demo=1
+```
+
+| Button | Expected |
+|--------|----------|
+| Multi-Part AOF | ANSWERED — High confidence, evidence rail |
+| Bind address | ANSWERED with superseded banner + history |
+| updateSlavesWaitingBgsave | REFUSED — last changers shown |
+
+Check `/explore` — search `repl-backlog-size` and the graph loads.
+
+---
+
+## Troubleshooting
+
+### "Failed to load resource: CORS error" in browser console
+
+The Render `ALLOWED_ORIGINS` doesn't include your Vercel URL. Update it in
+Render → Environment → `ALLOWED_ORIGINS` and redeploy.
+
+### Backend returns 500 on `/ask`
+
+Check Render logs. Most common cause: Neo4j AuraDB is paused (free tier pauses
+after 72 hours of inactivity). Resume it at console.neo4j.io.
+
+### Render service is sleeping (free tier)
+
+Render free tier spins down after 15 minutes of inactivity. The first request
+after sleep takes ~30 seconds. For a demo, send one warmup request first:
+```bash
+curl https://intentlens-api.onrender.com/health
+```
+
+### Stats strip shows zeros on landing page
+
+The Sarvam key or Neo4j connection failed. Check `/ready` endpoint:
+```bash
+curl https://intentlens-api.onrender.com/ready
+```
+
+### "VITE_API_URL not set" — all API calls going to /api/...
+
+The `VITE_API_URL` env var was not set before building on Vercel. Go to
+Vercel → Settings → Environment Variables → add it → Redeploy.
+
+---
+
+## Free tier limits
+
+| Service | Limit | Notes |
+|---------|-------|-------|
+| Render free | 750 hours/month, sleeps after 15 min | Upgrade to Starter $7/mo to avoid sleep |
+| Vercel hobby | 100 GB bandwidth/month | More than enough |
+| Neo4j AuraDB free | 1 instance, pauses after 72h idle | Resume takes ~30 sec |
+| Sarvam AI | Pay-per-use | Very cheap for demo volumes |
+
+---
+
+## Custom domain (optional)
+
+**Vercel:** Project → Settings → Domains → Add domain.
+
+**Render:** Service → Settings → Custom Domain.
+
+After adding a custom domain, update `ALLOWED_ORIGINS` in Render to include it.
