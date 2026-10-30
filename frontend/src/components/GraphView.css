@@ -1,0 +1,152 @@
+/* ── GraphView ──────────────────────────────────────────── */
+.gv-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.gv-canvas {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+}
+
+/* Ensure the NVL div fills its container */
+.gv-canvas > div,
+.gv-canvas > div > canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.gv-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+/* ── Legend ─────────────────────────────────────────────── */
+.gv-legend {
+  position: absolute;
+  bottom: var(--sp-3);
+  left: var(--sp-3);
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  list-style: none;
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: 0.7rem;
+  font-family: var(--font-ui);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.gv-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 3px;
+  vertical-align: middle;
+}
+
+/* ── Side panel ─────────────────────────────────────────── */
+.gv-panel {
+  position: absolute;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  width: 240px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--sp-4) var(--sp-5);
+  box-shadow: var(--shadow-md);
+  z-index: 10;
+}
+
+.gv-panel__close {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-3);
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: none;
+  padding: 2px 4px;
+  line-height: 1;
+}
+.gv-panel__close:hover { color: var(--ink); }
+
+.gv-panel__type {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 1px var(--sp-2);
+  border-radius: var(--r-sm);
+  display: inline-block;
+  margin-bottom: var(--sp-2);
+  text-transform: none;
+}
+
+.gv-panel__title {
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: var(--sp-3);
+  line-height: 1.35;
+  padding-right: var(--sp-6);
+}
+
+.gv-panel__meta {
+  margin: 0;
+  font-size: var(--text-xs);
+}
+
+.gv-panel__meta dt {
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.gv-panel__meta dd {
+  margin: 0 0 var(--sp-2);
+  color: var(--ink);
+}
+
+.gv-panel__mono {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  word-break: break-all;
+  color: var(--muted) !important;
+}
+
+.gv-panel__review-notice {
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--superseded-soft, rgba(210, 153, 34, 0.12));
+  border: 1px solid var(--superseded, #d29922);
+  border-radius: var(--r-sm);
+  font-size: var(--text-xs);
+  color: var(--superseded, #d29922);
+  margin-bottom: var(--sp-4);
+  line-height: 1.4;
+}
+
+.gv-panel__link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: var(--text-xs);
+}
+.gv-panel__link:hover { text-decoration: underline; }

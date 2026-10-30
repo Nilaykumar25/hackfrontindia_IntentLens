@@ -1,0 +1,75 @@
+/* ============================================================
+   Badge / chip component — status indicators
+   ============================================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-ui);
+  font-weight: 500;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+}
+
+/* ── Sizes ──────────────────────────────────────────────── */
+.badge--sm {
+  font-size: var(--text-xs);
+  padding: 2px var(--sp-2);
+}
+
+.badge--md {
+  font-size: var(--text-sm);
+  padding: var(--sp-1) var(--sp-3);
+}
+
+/* ── Dot ────────────────────────────────────────────────── */
+.badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Variants ───────────────────────────────────────────── */
+.badge--active {
+  background: var(--active-soft);
+  color: var(--active);
+}
+.badge--active .badge__dot { background: var(--active); }
+
+.badge--superseded {
+  background: var(--superseded-soft);
+  color: var(--superseded);
+}
+.badge--superseded .badge__dot { background: var(--superseded); }
+
+.badge--reversed {
+  background: var(--reversed-soft);
+  color: var(--reversed);
+}
+.badge--reversed .badge__dot { background: var(--reversed); }
+
+.badge--uncertain {
+  background: var(--uncertain-soft);
+  color: var(--uncertain);
+}
+.badge--uncertain .badge__dot { background: var(--uncertain); }
+
+.badge--refused {
+  background: var(--refused-soft);
+  color: var(--refused);
+}
+.badge--refused .badge__dot { background: var(--refused); }
+
+.badge--entity {
+  background: var(--entity-soft);
+  color: var(--entity);
+}
+.badge--entity .badge__dot { background: var(--entity); }
+
+.badge--default {
+  background: var(--surface-2);
+  color: var(--muted);
+}
+.badge--default .badge__dot { background: var(--muted); }

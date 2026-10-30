@@ -1,0 +1,14 @@
+# Human-readable description of the demo scope. The authoritative values live in .env
+repo: redis/redis
+subsystem: replication-and-persistence
+paths:
+  - src/replication.c
+  - src/rdb.c
+  - src/aof.c
+  - redis.conf
+config_files:
+  - redis.conf
+notes: >
+  Scope to one subsystem so extraction quality stays high and the demo is reliable.
+  Swap to django/django (paths: django/db/models/query.py, django/conf/global_settings.py)
+  by editing .env only.

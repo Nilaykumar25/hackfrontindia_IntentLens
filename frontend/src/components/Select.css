@@ -1,0 +1,59 @@
+/* ============================================================
+   Select component — same visual language as Input
+   ============================================================ */
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper__icon {
+  position: absolute;
+  right: var(--sp-3);
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+}
+
+.field__select {
+  width: 100%;
+  padding: var(--sp-2) calc(var(--sp-3) * 2 + 16px) var(--sp-2) var(--sp-3);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  font-size: var(--text-body);
+  font-family: var(--font-ui);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color var(--motion-fast) var(--ease-out);
+  min-height: 44px;
+}
+
+.field__select:hover {
+  border-color: var(--muted);
+}
+
+.field__select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.field__select--error {
+  border-color: var(--reversed);
+}
+
+.field__select--error:focus {
+  border-color: var(--reversed);
+  box-shadow: 0 0 0 3px var(--reversed-soft);
+}
+
+/* options inherit page background in system theming */
+.field__select option {
+  background: var(--surface);
+  color: var(--ink);
+}

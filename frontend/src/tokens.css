@@ -1,0 +1,208 @@
+/* ============================================================
+   IntentLens design tokens
+   Concept: "the evidence trail"
+   Accent: lens amber — evidence highlights, primary actions
+   Default: dark theme; light via prefers-color-scheme or data-theme="light"
+   Fonts: Fraunces (display), Outfit (UI), JetBrains Mono
+   ============================================================ */
+
+:root {
+  /* ── Palette: dark default ──────────────────────────────── */
+  --bg:          #0d1117;
+  --surface:     #161b22;
+  --surface-2:   #1c232c;
+  --surface-3:   #212830;
+  --ink:         #e6edf3;
+  --ink-2:       #c9d1d9;
+  --muted:       #8b949e;
+  --line:        #30363d;
+  --line-subtle: #21262d;
+
+  /* ── Accent: lens amber ─────────────────────────────────── */
+  --accent:       #e8a838;
+  --accent-hover: #f0bc5a;
+  --accent-soft:  rgba(232, 168, 56, 0.12);
+  --accent-fg:    #0d1117;   /* text on amber bg */
+
+  /* ── Semantic status colours ────────────────────────────── */
+  --active:      #3fb950;
+  --active-soft: rgba(63, 185, 80, 0.12);
+  --superseded:      #d29922;
+  --superseded-soft: rgba(210, 153, 34, 0.12);
+  --reversed:      #f85149;
+  --reversed-soft: rgba(248, 81, 73, 0.12);
+  --uncertain:      #d2a838;
+  --uncertain-soft: rgba(210, 168, 56, 0.12);
+  --refused:      #6e7681;
+  --refused-soft: rgba(110, 118, 129, 0.12);
+  --entity:       #58a6ff;
+  --entity-soft:  rgba(88, 166, 255, 0.12);
+
+  /* ── Typography ─────────────────────────────────────────── */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-ui:      'Outfit', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', monospace;
+
+  --text-hero: clamp(2.5rem, 5vw, 3.75rem);
+  --text-h1:   2rem;
+  --text-h2:   1.5rem;
+  --text-h3:   1.125rem;
+  --text-body: 1rem;
+  --text-read: 1.125rem;
+  --text-sm:   0.875rem;
+  --text-xs:   0.75rem;
+  --text-mono: 0.8125rem;
+
+  --lh-tight:  1.1;
+  --lh-heading: 1.25;
+  --lh-body:   1.6;
+  --lh-read:   1.75;
+
+  /* ── Spacing (4px grid) ─────────────────────────────────── */
+  --sp-1:   4px;
+  --sp-2:   8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+
+  /* ── Border radius ──────────────────────────────────────── */
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:  12px;
+  --r-xl:  16px;
+  --r-full: 9999px;
+
+  /* ── Motion ─────────────────────────────────────────────── */
+  --ease-out: cubic-bezier(0.2, 0, 0.2, 1);
+  --motion-fast: 150ms;
+  --motion-base: 280ms;
+  --motion-slow: 600ms;
+  --motion-thread: 800ms;
+
+  /* ── Shadows ─────────────────────────────────────────────── */
+  --shadow-sm: 0 1px 3px rgba(1, 4, 9, 0.4);
+  --shadow-md: 0 4px 12px rgba(1, 4, 9, 0.5);
+  --shadow-lg: 0 8px 24px rgba(1, 4, 9, 0.6);
+
+  /* ── Layout ─────────────────────────────────────────────── */
+  --max-prose:  72ch;
+  --max-layout: 1240px;
+  --nav-h:      56px;
+}
+
+/* ── Light theme ────────────────────────────────────────── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:          #f6f8fa;
+    --surface:     #ffffff;
+    --surface-2:   #eef1f4;
+    --surface-3:   #e6eaef;
+    --ink:         #1f2328;
+    --ink-2:       #2d333b;
+    --muted:       #59636e;
+    --line:        #d1d9e0;
+    --line-subtle: #eaeef2;
+
+    --accent:       #b8821f;
+    --accent-hover: #9d6e18;
+    --accent-soft:  rgba(184, 130, 31, 0.10);
+    --accent-fg:    #ffffff;
+
+    --active:          #1a7f37;
+    --active-soft:     rgba(26, 127, 55, 0.10);
+    --superseded:      #9a6700;
+    --superseded-soft: rgba(154, 103, 0, 0.10);
+    --reversed:        #cf222e;
+    --reversed-soft:   rgba(207, 34, 46, 0.10);
+    --uncertain:       #9a8400;
+    --uncertain-soft:  rgba(154, 132, 0, 0.10);
+    --refused:         #57606a;
+    --refused-soft:    rgba(87, 96, 106, 0.10);
+    --entity:          #0969da;
+    --entity-soft:     rgba(9, 105, 218, 0.10);
+
+    --shadow-sm: 0 1px 3px rgba(27, 31, 36, 0.12);
+    --shadow-md: 0 4px 12px rgba(27, 31, 36, 0.14);
+    --shadow-lg: 0 8px 24px rgba(27, 31, 36, 0.16);
+  }
+}
+
+/* Manual theme override via JS (data-theme attribute on <html>) */
+[data-theme="light"] {
+  --bg:          #f6f8fa;
+  --surface:     #ffffff;
+  --surface-2:   #eef1f4;
+  --surface-3:   #e6eaef;
+  --ink:         #1f2328;
+  --ink-2:       #2d333b;
+  --muted:       #59636e;
+  --line:        #d1d9e0;
+  --line-subtle: #eaeef2;
+  --accent:       #b8821f;
+  --accent-hover: #9d6e18;
+  --accent-soft:  rgba(184, 130, 31, 0.10);
+  --accent-fg:    #ffffff;
+  --active:          #1a7f37;
+  --active-soft:     rgba(26, 127, 55, 0.10);
+  --superseded:      #9a6700;
+  --superseded-soft: rgba(154, 103, 0, 0.10);
+  --reversed:        #cf222e;
+  --reversed-soft:   rgba(207, 34, 46, 0.10);
+  --uncertain:       #9a8400;
+  --uncertain-soft:  rgba(154, 132, 0, 0.10);
+  --refused:         #57606a;
+  --refused-soft:    rgba(87, 96, 106, 0.10);
+  --entity:          #0969da;
+  --entity-soft:     rgba(9, 105, 218, 0.10);
+  --shadow-sm: 0 1px 3px rgba(27, 31, 36, 0.12);
+  --shadow-md: 0 4px 12px rgba(27, 31, 36, 0.14);
+  --shadow-lg: 0 8px 24px rgba(27, 31, 36, 0.16);
+}
+
+[data-theme="dark"] {
+  --bg:          #0d1117;
+  --surface:     #161b22;
+  --surface-2:   #1c232c;
+  --surface-3:   #212830;
+  --ink:         #e6edf3;
+  --ink-2:       #c9d1d9;
+  --muted:       #8b949e;
+  --line:        #30363d;
+  --line-subtle: #21262d;
+  --accent:       #e8a838;
+  --accent-hover: #f0bc5a;
+  --accent-soft:  rgba(232, 168, 56, 0.12);
+  --accent-fg:    #0d1117;
+  --active:      #3fb950;
+  --active-soft: rgba(63, 185, 80, 0.12);
+  --superseded:      #d29922;
+  --superseded-soft: rgba(210, 153, 34, 0.12);
+  --reversed:      #f85149;
+  --reversed-soft: rgba(248, 81, 73, 0.12);
+  --uncertain:      #d2a838;
+  --uncertain-soft: rgba(210, 168, 56, 0.12);
+  --refused:      #6e7681;
+  --refused-soft: rgba(110, 118, 129, 0.12);
+  --entity:       #58a6ff;
+  --entity-soft:  rgba(88, 166, 255, 0.12);
+  --shadow-sm: 0 1px 3px rgba(1, 4, 9, 0.4);
+  --shadow-md: 0 4px 12px rgba(1, 4, 9, 0.5);
+  --shadow-lg: 0 8px 24px rgba(1, 4, 9, 0.6);
+}
+
+/* ── Disable all motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

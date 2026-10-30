@@ -1,0 +1,363 @@
+{
+  "_readme": "30 answerable / 10 unanswerable / 5 supersession. All answerable and supersession questions target entities that have GOVERNS links in the loaded graph (as of the 200-thread build). Expected keywords are phrases that appear in the decision summary/rationale stored in the graph. Sources are the commit messages that produced the decisions.",
+  "_splits": {
+    "dev": ["A01","A02","A03","A04","A05","A06","A07","A08","A09","A10","A11","A12","A13","A14","A15","A16","A17","A18","A19","A20","U01","U02","U03","U04","U05","S01","S02","S03"],
+    "held_out": ["A21","A22","A23","A24","A25","A26","A27","A28","A29","A30","U06","U07","U08","U09","U10","S04","S05"]
+  },
+  "questions": [
+    {
+      "id": "A01", "type": "answerable",
+      "question": "Why does Redis refuse writes when BGSAVE fails?",
+      "expected_keywords": ["BGSAVE", "save", "error"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Default write refusal on BGSAVE failure' — entity: redis.conf"
+    },
+    {
+      "id": "A02", "type": "answerable",
+      "question": "Why does always-show-logo exist in redis.conf?",
+      "expected_keywords": ["logo", "stdout", "TTY"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Only show Redis logo if logging to stdout / TTY' — entities: redis.conf, always-show-logo"
+    },
+    {
+      "id": "A03", "type": "answerable",
+      "question": "Why does Redis use a background thread to remove temporary RDB files?",
+      "expected_keywords": ["background", "thread", "rdb"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Remove temporary rdb file in background thread using bg_unlink' — entities: rdbRemoveTempFile, bg_unlink"
+    },
+    {
+      "id": "A04", "type": "answerable",
+      "question": "Why does Redis have a maxmemory-eviction-tenacity setting?",
+      "expected_keywords": ["eviction", "maxmemory", "time"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add time-limited eviction with maxmemory-eviction-tenacity' — entity: maxmemory-eviction-tenacity"
+    },
+    {
+      "id": "A05", "type": "answerable",
+      "question": "Why does Redis have an oom-score-adj-values configuration?",
+      "expected_keywords": ["oom", "score", "values"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Fix oom-score-adj-values range and add absolute values option' — entities: oom-score-adj, oom-score-adj-values"
+    },
+    {
+      "id": "A06", "type": "answerable",
+      "question": "Why does Redis support the & symbol in ACL for pub/sub channel patterns?",
+      "expected_keywords": ["ACL", "channel", "pubsub"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add pub/sub channel patterns to ACL with & symbol' — entity: acl-pubsub-default"
+    },
+    {
+      "id": "A07", "type": "answerable",
+      "question": "Why does Redis have a set-proc-title configuration option?",
+      "expected_keywords": ["process", "title", "proc"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add set-proc-title config to optionally disable process title' — entity: set-proc-title"
+    },
+    {
+      "id": "A08", "type": "answerable",
+      "question": "Why does Redis have an ignore-warnings config option?",
+      "expected_keywords": ["warnings", "MADV_FREE", "arm64"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add ignore-warnings config for MADV_FREE/fork arm64 bug' — entity: ignore-warnings"
+    },
+    {
+      "id": "A09", "type": "answerable",
+      "question": "Why does sendBulkToSlave check for EAGAIN?",
+      "expected_keywords": ["EAGAIN", "socket", "network"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Check for EAGAIN in sendBulkToSlave()' — entity: sendBulkToSlave"
+    },
+    {
+      "id": "A10", "type": "answerable",
+      "question": "Why does rewriteAppendOnlyFile use poll with a 1-second timeout?",
+      "expected_keywords": ["poll", "timeout", "parent"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Use poll(2) with 1-second timeout and 20-failure early stop' — entity: rewriteAppendOnlyFile"
+    },
+    {
+      "id": "A11", "type": "answerable",
+      "question": "Why does syncWithMaster pipeline AUTH and REPLCONF together?",
+      "expected_keywords": ["pipeline", "REPLCONF", "round trips"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Pipeline AUTH and three REPLCONF commands together' — entity: syncWithMaster"
+    },
+    {
+      "id": "A12", "type": "answerable",
+      "question": "Why does Redis have a NOFAILOVER flag for slaves?",
+      "expected_keywords": ["failover", "slave", "flag"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add NOFAILOVER flag to prevent slaves from failing over' — entity: redis.conf"
+    },
+    {
+      "id": "A13", "type": "answerable",
+      "question": "Why does Redis separate tls-cert-file and tls-key-file into separate directives?",
+      "expected_keywords": ["tls", "cert", "key"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Separate TLS cert-file and key-file directives onto separate lines' — entities: tls-cert-file, tls-key-file"
+    },
+    {
+      "id": "A14", "type": "answerable",
+      "question": "Why does Redis support a '-' prefix in bind addresses?",
+      "expected_keywords": ["bind", "EADDRNOTAVAIL", "prefix"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add - prefix to allow EADDRNOTAVAIL to be ignored by default' — entity: bind"
+    },
+    {
+      "id": "A15", "type": "answerable",
+      "question": "Why does replicationSetupSlaveForFullResync re-emit SELECT?",
+      "expected_keywords": ["SELECT", "slave", "sync"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Re-emit SELECT after each new slave full sync setup' — entity: replicationSetupSlaveForFullResync"
+    },
+    {
+      "id": "A16", "type": "answerable",
+      "question": "Why does stopAppendOnly clear the aof_rewrite_scheduled flag?",
+      "expected_keywords": ["appendonly", "rewrite", "scheduled"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'stopAppendonly() turns off aof_rewrite_scheduled' — entities: stopAppendOnly, startAppendOnly"
+    },
+    {
+      "id": "A17", "type": "answerable",
+      "question": "Why does Redis also remove temporary AOF files in a background thread?",
+      "expected_keywords": ["AOF", "background", "thread"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Remove temporary AOF and RDB files in a background thread' — entity: bg_unlink"
+    },
+    {
+      "id": "A18", "type": "answerable",
+      "question": "Why does Redis have the GETEX command?",
+      "expected_keywords": ["GETEX", "TTL", "expire"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'GETEX, GETDEL, and SET PXAT/EXAT commands' — entity: feedAppendOnlyFile"
+    },
+    {
+      "id": "A19", "type": "answerable",
+      "question": "Why does Redis batch IO thread pausing with at most 8 threads at a time?",
+      "expected_keywords": ["IO threads", "batch", "pausing"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Batch client eviction with at most 8 IO threads paused' — from Async IO commit"
+    },
+    {
+      "id": "A20", "type": "answerable",
+      "question": "Why does Redis use hinted hash templates to reduce memory?",
+      "expected_keywords": ["hash", "template", "memory"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Introduce hinted hash templates' — from hash templates commit"
+    },
+    {
+      "id": "A21", "type": "answerable",
+      "question": "Why does Redis use bg_unlink for file deletion?",
+      "expected_keywords": ["bg_unlink", "background", "blocking"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Remove temporary rdb file in background thread using bg_unlink'"
+    },
+    {
+      "id": "A22", "type": "answerable",
+      "question": "Why does replicationCron run BGSAVE only when AOF rewriting is not active?",
+      "expected_keywords": ["BGSAVE", "AOF", "rewriting"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Delay BGSAVE only when AOF rewriting is active' — supersedes older avoid-simultaneous decision"
+    },
+    {
+      "id": "A23", "type": "answerable",
+      "question": "Why does Redis add RDB AUX fields for user info?",
+      "expected_keywords": ["RDB", "info", "fields"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Use RDB info fields for user info with backward-compatible naming'"
+    },
+    {
+      "id": "A24", "type": "answerable",
+      "question": "Why does Redis use libsystemd's sd_notify instead of its own implementation?",
+      "expected_keywords": ["systemd", "sd_notify", "supervised"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Use libsystemd sd_notify for communicating redis status to systemd'"
+    },
+    {
+      "id": "A25", "type": "answerable",
+      "question": "Why does Redis add an RDB channel for replication?",
+      "expected_keywords": ["rdb", "channel", "replication"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add RDB channel replication with dedicated connection'"
+    },
+    {
+      "id": "A26", "type": "answerable",
+      "question": "Why does Redis keep special clients like replica and monitor on the main thread?",
+      "expected_keywords": ["replica", "monitor", "main thread"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Keep special clients on main thread' — from Async IO commit"
+    },
+    {
+      "id": "A27", "type": "answerable",
+      "question": "Why does Redis add XNACK to release stream messages back to a group?",
+      "expected_keywords": ["stream", "XNACK", "pending"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add XNACK command for releasing stream messages back to the group'"
+    },
+    {
+      "id": "A28", "type": "answerable",
+      "question": "Why does Redis use per-consumer-group PEL histograms in INFO streams?",
+      "expected_keywords": ["stream", "PEL", "histogram"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Add per-consumer-group PEL histograms in a new INFO streams section'"
+    },
+    {
+      "id": "A29", "type": "answerable",
+      "question": "Why does Redis use an event-driven model for IO threads?",
+      "expected_keywords": ["event-driven", "IO threads", "asynchronous"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Adopt asynchronous IO threads with event-driven model' — from Async IO commit"
+    },
+    {
+      "id": "A30", "type": "answerable",
+      "question": "Why does Redis use active defrag with a minimum cycle percentage?",
+      "expected_keywords": ["defrag", "cycle", "latency"],
+      "gold_evidence_ids": [],
+      "source_note": "Decision 'Adjust active defrag defaults and behavior when disabled mid-run'"
+    },
+    {
+      "id": "U01", "type": "unanswerable",
+      "question": "Why did the Redis team choose to use sds instead of C strings for string storage?",
+      "expect_refusal": true,
+      "source_note": "Fundamental design decision predating subsystem commits — no decision in graph"
+    },
+    {
+      "id": "U02", "type": "unanswerable",
+      "question": "Why was the ziplist encoding chosen over skiplist for small sorted sets?",
+      "expect_refusal": true,
+      "source_note": "Not in subsystem scope — t_zset.c is not in the configured paths"
+    },
+    {
+      "id": "U03", "type": "unanswerable",
+      "question": "Why does Redis use a single-threaded event loop for command processing?",
+      "expect_refusal": true,
+      "source_note": "Fundamental architecture decision not recorded as a decision node in the graph"
+    },
+    {
+      "id": "U04", "type": "unanswerable",
+      "question": "Why does Redis use Lua for scripting instead of JavaScript?",
+      "expect_refusal": true,
+      "source_note": "Scripting engine choice not in replication/rdb/aof subsystem scope"
+    },
+    {
+      "id": "U05", "type": "unanswerable",
+      "question": "Why does Redis use a linked list instead of an array for the freelist?",
+      "expect_refusal": true,
+      "source_note": "Internal memory allocator design not tracked as a decision"
+    },
+    {
+      "id": "U06", "type": "unanswerable",
+      "question": "Why does Redis use CRC64 for RDB checksums instead of MD5?",
+      "expect_refusal": true,
+      "source_note": "No decision node for CRC64 choice in the loaded graph"
+    },
+    {
+      "id": "U07", "type": "unanswerable",
+      "question": "Why was the default TCP backlog size chosen to be 511?",
+      "expect_refusal": true,
+      "source_note": "tcp-backlog default not governed by any decision in the graph"
+    },
+    {
+      "id": "U08", "type": "unanswerable",
+      "question": "Why does Redis use jemalloc instead of the system allocator?",
+      "expect_refusal": true,
+      "source_note": "Memory allocator choice not in subsystem scope"
+    },
+    {
+      "id": "U09", "type": "unanswerable",
+      "question": "Why does Redis use copy-on-write for RDB saving?",
+      "expect_refusal": true,
+      "source_note": "OS-level fork/COW mechanism — not an explicit decision in the graph"
+    },
+    {
+      "id": "U10", "type": "unanswerable",
+      "question": "Why does Redis implement sorted sets using both a skiplist and a hash table?",
+      "expect_refusal": true,
+      "source_note": "Data structure internals not in the configured subsystem paths"
+    },
+    {
+      "id": "H01", "type": "answerable",
+      "question": "redis.conf mein always-show-logo kyun hai?",
+      "expected_keywords": ["logo", "stdout", "TTY"],
+      "gold_evidence_ids": [],
+      "lang": "hinglish",
+      "source_note": "Hinglish: 'Why does always-show-logo exist in redis.conf?'"
+    },
+    {
+      "id": "H02", "type": "answerable",
+      "question": "set-proc-title ka use kyun karte hain?",
+      "expected_keywords": ["process", "title", "proc"],
+      "gold_evidence_ids": [],
+      "lang": "hinglish",
+      "source_note": "Hinglish: 'Why is set-proc-title used?'"
+    },
+    {
+      "id": "H03", "type": "answerable",
+      "question": "bind address mein dash prefix kyu allow karte hain?",
+      "expected_keywords": ["bind", "EADDRNOTAVAIL", "prefix"],
+      "gold_evidence_ids": [],
+      "lang": "hinglish",
+      "source_note": "Hinglish: 'Why does bind allow a dash prefix?'"
+    },
+    {
+      "id": "H04", "type": "unanswerable",
+      "question": "Redis ne sds kyu chuna C strings ki jagah?",
+      "expect_refusal": true,
+      "lang": "hinglish",
+      "source_note": "Hinglish: 'Why did Redis choose sds instead of C strings?' — should refuse"
+    },
+    {
+      "id": "H05", "type": "answerable",
+      "question": "oom-score-adj-values ki range kya hai aur kyun?",
+      "expected_keywords": ["oom", "score", "values"],
+      "gold_evidence_ids": [],
+      "lang": "hinglish",
+      "source_note": "Hinglish: 'What is the oom-score-adj-values range and why?'"
+    },
+    {
+      "id": "S01", "type": "supersession",
+      "question": "Why does replicationCron now delay BGSAVE only when AOF rewriting is active?",
+      "expected_keywords": ["BGSAVE", "AOF", "delay"],
+      "superseded_keywords": ["simultaneous"],
+      "gold_evidence_ids": [],
+      "expect_superseded_notice": true,
+      "source_note": "Decision 'Delay BGSAVE only when AOF rewriting is active' SUPERSEDES 'Avoid simultaneous RDB and AOF child process'"
+    },
+    {
+      "id": "S02", "type": "supersession",
+      "question": "Why does Redis now make disconnectSlaves synchronous instead of calling it from freeClient?",
+      "expected_keywords": ["disconnectSlaves", "synchronous"],
+      "superseded_keywords": ["aggressively"],
+      "gold_evidence_ids": [],
+      "expect_superseded_notice": true,
+      "source_note": "Decision 'Make disconnectSlaves() synchronous' SUPERSEDES 'Fix #7306 less aggressively'"
+    },
+    {
+      "id": "S03", "type": "supersession",
+      "question": "Why does Redis use RDB info fields for user info instead of introducing new AUX fields?",
+      "expected_keywords": ["RDB", "info", "backward"],
+      "superseded_keywords": ["AUX"],
+      "gold_evidence_ids": [],
+      "expect_superseded_notice": true,
+      "source_note": "Decision 'Use RDB info fields for user info' SUPERSEDES 'Introduce RDB AUX fields'"
+    },
+    {
+      "id": "S04", "type": "supersession",
+      "question": "Why does Redis use replicationFeedSlaves() to send PING to slaves instead of a direct async call?",
+      "expected_keywords": ["replicationFeedSlaves", "PING"],
+      "superseded_keywords": ["async"],
+      "gold_evidence_ids": [],
+      "expect_superseded_notice": false,
+      "source_note": "Decision 'Use replicationFeedSlaves() to send PING' REFINES 'Send async PING before starting replication'"
+    },
+    {
+      "id": "S05", "type": "supersession",
+      "question": "Why does Redis use libsystemd for supervised mode rather than its own sd_notify implementation?",
+      "expected_keywords": ["libsystemd", "supervised", "sd_notify"],
+      "superseded_keywords": [],
+      "gold_evidence_ids": [],
+      "expect_superseded_notice": false,
+      "source_note": "Decision 'Use libsystemd sd_notify' REFINES 'Add supervised configuration option'"
+    }
+  ]
+}

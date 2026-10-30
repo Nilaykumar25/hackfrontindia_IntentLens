@@ -1,0 +1,53 @@
+/* ============================================================
+   Skeleton loading component
+   ============================================================ */
+
+.skeleton {
+  background: var(--surface-2);
+  border-radius: var(--r-sm);
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+/* shimmer sweep */
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton::after { animation: none; }
+}
+
+/* ── Variants ───────────────────────────────────────────── */
+
+/* Text: narrow height, full width by default */
+.skeleton--text {
+  height: 1em;
+  border-radius: var(--r-full);
+  margin-bottom: var(--sp-2);
+}
+
+/* Block: rectangle */
+.skeleton--block {
+  border-radius: var(--r-md);
+}
+
+/* Circle: avatar / icon placeholder */
+.skeleton--circle {
+  border-radius: 50%;
+}

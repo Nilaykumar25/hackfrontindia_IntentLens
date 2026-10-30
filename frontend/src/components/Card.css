@@ -1,0 +1,28 @@
+/* ============================================================
+   Card component — quiet surface container
+   ============================================================ */
+
+.card-base {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: var(--sp-6);
+}
+
+/* Interactive cards get hover elevation — opt-in only */
+.card-base--interactive {
+  cursor: pointer;
+  transition: box-shadow var(--motion-fast) var(--ease-out),
+              border-color var(--motion-fast) var(--ease-out);
+}
+
+.card-base--interactive:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--line);
+}
+
+/* Flush variant: no padding */
+.card-base--flush {
+  padding: 0;
+  overflow: hidden;
+}

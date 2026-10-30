@@ -1,0 +1,105 @@
+/* ── StatsStrip ─────────────────────────────────────────── */
+.stats-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-8) var(--sp-12);
+  padding: var(--sp-10) var(--sp-6);
+}
+
+.stats-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  min-width: 100px;
+}
+
+.stats-strip__value {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  min-height: 2.25rem;
+  display: flex;
+  align-items: center;
+}
+
+.stats-strip__label {
+  font-family: var(--font-ui);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Loading shimmer for individual stat */
+.stats-strip__loading {
+  display: inline-block;
+  width: 60px;
+  height: 2.25rem;
+  border-radius: var(--r-sm);
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: stats-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes stats-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Quiet empty state */
+.stats-strip--empty {
+  justify-content: flex-start;
+  padding: var(--sp-6);
+}
+
+.stats-strip__empty-msg {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  max-width: none;
+}
+
+.stats-strip__empty-msg code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 1px var(--sp-2);
+  color: var(--accent);
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .stats-strip__loading {
+    animation: none;
+    opacity: 0.4;
+  }
+}
+
+/* ── Mobile ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .stats-strip {
+    gap: var(--sp-6) var(--sp-8);
+    padding: var(--sp-8) var(--sp-4);
+  }
+  .stats-strip__value { font-size: 1.875rem; }
+  .stats-strip__item { min-width: 80px; }
+}
+
+@media (max-width: 420px) {
+  .stats-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+    padding: var(--sp-6) var(--sp-4);
+  }
+  .stats-strip__item { align-items: flex-start; }
+}
