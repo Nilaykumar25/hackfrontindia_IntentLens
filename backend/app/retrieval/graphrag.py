@@ -80,6 +80,9 @@ class GraphRAG:
         return [r for r in self.db.run(Q.DECISIONS_BY_ENTITY, entity_ids=entity_ids)] if entity_ids else []
 
     def vector_fallback(self, emb: list[float]) -> tuple[list[dict], float]:
+        # Skip if embedding is a zero vector (sentence-transformers unavailable)
+        if not any(emb):
+            return [], 0.0
         hits = self.db.run(Q.DECISION_VECTOR, k=5, embedding=emb)
         if not hits or hits[0]["score"] < 0.80:
             return [], 0.0

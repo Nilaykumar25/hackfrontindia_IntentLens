@@ -258,12 +258,19 @@ def get_sarvam() -> LLM:
 
 @lru_cache
 def _embedder():
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer(settings.embedding_model)
+    try:
+        from sentence_transformers import SentenceTransformer
+        return SentenceTransformer(settings.embedding_model)
+    except Exception:
+        return None
 
 
 def embed(texts: list[str]) -> list[list[float]]:
-    return _embedder().encode(texts, normalize_embeddings=True, show_progress_bar=False).tolist()
+    model = _embedder()
+    if model is None:
+        # Fallback: return zero vectors — vector search will be skipped gracefully
+        return [[0.0] * settings.embedding_dim for _ in texts]
+    return model.encode(texts, normalize_embeddings=True, show_progress_bar=False).tolist()
 
 
 def cosine(a: list[float], b: list[float]) -> float:
