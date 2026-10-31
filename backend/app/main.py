@@ -37,8 +37,9 @@ app = FastAPI(title="IntentLens API", version="0.2.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_allowed or ["*"],
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=False,
 )
 
 # ── request models ────────────────────────────────────────────────────────────
